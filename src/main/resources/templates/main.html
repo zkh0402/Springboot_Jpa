@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        ul li {
+            float: left;
+            list-style: none;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<span>欢迎</span>[[${session.loginUser.userName}]]
+
+<table border="1" cellspacing="0" cellpadding="0">
+    <thead>
+    <tr>
+        <th colspan="4">用户列表</th>
+    </tr>
+    <th>id</th>
+    <th>用户名</th>
+    <th>爱好</th>
+    <th>所在城市</th>
+    </thead>
+    <tr th:each="user:${allUser}">
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.userHobby}"></td>
+        <td th:text="${user.userLocation.lName}"></td>
+    </tr>
+
+</table>
+<div>
+    当前第 [[${page}]] 页 总计 [[${totalPage}]] 页 共 [[${totalCount}]] 条记录
+</div>
+<ul>
+    <li><a th:href="@{/main(page=${page}-1)}" th:if="${page} != 1">上一页</a></li>
+    <li th:each="num:${#numbers.sequence(1,totalPage)}">
+        <a th:href="@{/main(page=${num})}">[[${num}]]</a>
+    </li>
+    <li><a th:href="@{/main(page=${page}+1)}" th:if="${page} < ${totalPage}">下一页</a></li>
+</ul>
+</body>
+</html>
